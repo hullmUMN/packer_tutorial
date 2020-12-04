@@ -1,0 +1,29 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2020"><meta name="DC.rights.owner" content="(C) Copyright 2020"><meta name="DC.type" content="task"><meta name="DC.creator" content="Mary Frances Hull"><meta name="DC.publisher" content="WRIT5662"><meta name="DC.date.created" content="December 04, 2020"><meta name="DC.format" content="HTML5"><meta name="DC.identifier" content="installing_chocolately_on_windows"><link rel="stylesheet" type="text/css" href="commonltr.css"><title>Installing Chocolately</title></head><body id="installing_chocolately_on_windows"><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+    <h1 class="title topictitle1" id="ariaid-title1">Installing Chocolately</h1>
+    <div class="body taskbody">
+    
+        <section><ol class="ol steps"><li class="li step stepexpand">
+                <span class="ph cmd">Download Chocolately from the <a class="xref" href="https://chocolatey.org/install" target="_blank" rel="external noopener">Chocolatey</a>
+                    website</span>
+                <div class="itemgroup info">
+                    <p class="p"></p>
+                </div>
+            </li><li class="li step stepexpand"><span class="ph cmd">Ensure that you are using an administrative shell to install Chocolatey.</span>
+                <div class="itemgroup info">
+                    <p class="p"></p>
+                </div></li><li class="li step stepexpand"><span class="ph cmd">Install with powershell.exe by pasting the following command into your shell and press Enter:</span>
+            <div class="itemgroup stepxmp"><pre class="pre screen">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
+iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))</pre>
+                    <p class="p"></p></div>
+            </li><li class="li step stepexpand"><span class="ph cmd">Wait a few seconds for the command to complete.</span>
+                <div class="itemgroup info">
+                    <p class="p"></p>
+                </div></li><li class="li step stepexpand"><span class="ph cmd">If you don't see any errors, you are ready to use Chocolately.</span>
+            
+                <div class="itemgroup stepresult">You can confirm the installation of Chocolately by typing <code class="ph codeph">choco</code> or <code class="ph codeph">choco -?</code>:<figure class="fig fignone">
+                <img class="image" src="images/chocolatey.JPG">
+            </figure></div></li></ol></section>
+    </div>
+</article></main></body></html>

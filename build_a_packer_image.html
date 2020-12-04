@@ -1,0 +1,46 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2020"><meta name="DC.rights.owner" content="(C) Copyright 2020"><meta name="DC.type" content="task"><meta name="DC.creator" content="Mary Frances Hull"><meta name="DC.publisher" content="WRIT5662"><meta name="DC.date.created" content="December 04, 2020"><meta name="DC.format" content="HTML5"><meta name="DC.identifier" content="build_a_packer_image"><link rel="stylesheet" type="text/css" href="commonltr.css"><title>Building a Packer Image</title></head><body id="build_a_packer_image"><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+    <h1 class="title topictitle1" id="ariaid-title1">Building a Packer Image</h1>
+    <div class="body taskbody">
+        <section class="section context">Once your template is complete, you can proceed to build the application image.</section>
+        
+        <section><ol class="ol steps"><li class="li step stepexpand">
+       <span class="ph cmd">Validate the Packer template and ensure that the JSON syntax and configuration
+                values are correct.</span>
+           <div class="itemgroup stepxmp"><pre class="pre codeblock"><code>$ packer validate aws-application.json
+Template validated successfully.       </code></pre>
+            <div class="note note note_note"><span class="note__title">Note:</span> If the template validation was not successful, that means there is an error in
+                        your configuration file. The <code class="ph codeph">validate</code> command should tell
+                        you where to find the error.<p class="p"></p></div>
+           </div>
+            </li><li class="li step stepexpand">
+                <span class="ph cmd">To create your Packer image, execute <code class="ph codeph">packer build</code> with the name of the template file. The
+                    output will look something like this:</span>
+                <div class="itemgroup stepxmp"><pre class="pre codeblock"><code>$ packer build aws-application.json
+aws output will be in this color.
+==&gt; aws: Waiting for source machine to become available...
+==&gt; aws: Waiting for SSH to become available...
+==&gt; aws: Connected to SSH!
+==&gt; aws: Provisioning with shell script: add-directories.sh
+==&gt; aws: Uploading index.html =&gt; /usr/share/nginx/html/
+==&gt; aws: Uploading css/ =&gt; /usr/share/nginx/html/css/
+==&gt; aws: Uploading js/ =&gt; /usr/share/nginx/html/js/
+==&gt; aws: Stopping source machine (6163c9e1-0ee6-eccb-c8bb-9f4369c73bb0)...
+==&gt; aws: Waiting for source machine to stop (6873c9e1-0ee8-eccb-c8bb-9f4376c73bb0)...
+==&gt; aws: Creating image from source machine...
+==&gt; aws: Waiting for image to become available...
+==&gt; aws: Deleting source machine...
+==&gt; aws: Waiting for source machine to be deleted...
+Build 'aws' finished.
+                    
+==&gt; Builds finished. The artifacts of successful builds are:
+--&gt; aws: Image was created: c7da3349-5b2d-2fc7-bde5-503a3f8450b1
+                    
+                </code></pre></div>
+                <div class="itemgroup info"><p class="p"></p><strong class="ph b">Artifacts</strong> are the result of a single build, including a set of IDs
+                    for files that represent the final machine image. Every builder produces a
+                    single artifact. For the AWS builder, the artifact is the new image ID.</div>   
+            </li></ol></section>       
+    </div>
+</article></main></body></html>

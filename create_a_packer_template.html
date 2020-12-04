@@ -1,0 +1,96 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2020"><meta name="DC.rights.owner" content="(C) Copyright 2020"><meta name="DC.type" content="task"><meta name="DC.creator" content="Mary Frances Hull"><meta name="DC.publisher" content="WRIT5662"><meta name="DC.date.created" content="December 04, 2020"><meta name="DC.format" content="HTML5"><meta name="DC.identifier" content="create_a_packer_template"><link rel="stylesheet" type="text/css" href="commonltr.css"><title>Creating a Packer Template</title></head><body id="create_a_packer_template"><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+    <h1 class="title topictitle1" id="ariaid-title1">Creating a Packer Template</h1>
+ 
+    <div class="body taskbody">
+        
+        <section class="section context">
+            <p class="p">To create a Packer image for an application, you must create a Packer template. The template can live either within a 
+            local directory of the application or in a separate empty directory.</p>
+            
+            <p class="p">The configuration file determines the type of image being built and is written in JSON. For exmple, this file may be called
+            <code class="ph codeph">aws-application.json</code>.</p>
+        </section>
+
+<section><ol class="ol steps"><li class="li step stepexpand">
+    <span class="ph cmd">Add variables to your Packer template</span>
+   <div class="itemgroup stepxmp"><div class="note note note_note"><span class="note__title">Note:</span> The contents of the file begin with your AWS environment variables for your account, followed by the builders
+     and provisioners. Variables are particularly useful when it comes to sensitive information, such are your account login and SSH key 
+     fingerprint.</div>
+     <pre class="pre codeblock"><code>{
+ "variables": {
+ "aws_access_key": "",
+ "aws_secret_key": ""
+},     </code></pre>
+          <p class="p"></p>
+          <p class="p"></p>
+    </div>
+  </li><li class="li step stepexpand"><span class="ph cmd">Add packer builders</span>
+    <div class="itemgroup info">Builders are responsible for creating machines and generating images from them for various
+          platforms. For example, there are separate builders for EC2, VMware, VirtualBox, etc.
+          Packer comes with many builders by default, and can also be extended to add new builders.
+          Below is an example of an AWS builder for a web-based application using Nginx.<p class="p"></p></div>
+    <div class="itemgroup stepxmp">
+      <pre class="pre codeblock"><code>"builders": [
+{
+  "type": "amazon-instance",
+  "access_key": "YOUR KEY HERE",
+  "secret_key": "YOUR SECRET KEY HERE",
+  "region": "us-east-1",
+  "source_ami": "ami-d9d6a6b0",
+  "instance_type": "m1.small",
+  "ssh_username": "ubuntu",
+       
+  "account_id": "0123-4567-0890",
+  "s3_bucket": "packer-images",
+  "x509_cert_path": "x509.cert",
+  "x509_key_path": "x509.key",
+  "x509_upload_path": "/tmp",
+        
+  "ami_name": "packer-quick-start {{timestamp}}"
+   }
+],</code></pre>
+          <p class="p"></p>    
+    </div>
+  </li><li class="li step stepexpand"><span class="ph cmd">Add Provisioners to Customize the Image</span>
+    <div class="itemgroup info">Provisioners use builtin and third-party software to install and configure the machine
+          image after booting. Provisioners prepare the system for use, so common use cases for
+          provisioners include: <ul class="ul">
+            <li class="li">installing packages</li>
+            <li class="li">patching the kernel</li>
+            <li class="li">creating users</li>
+            <li class="li">downloading application code <p class="p"></p></li>
+          </ul>The <code class="ph codeph">file</code> provisioner uploads files to machines built by Packer. The
+          recommended usage of the <code class="ph codeph">file</code> provisioner is to use it to upload files,
+          and then use <code class="ph codeph">shell</code> provisioner to move them to the proper place, set
+          permissions, etc. The <code class="ph codeph">file</code> provisioner can refer to a single file, such
+          as <code class="ph codeph">index.html</code>, or an entire directory, such as
+            <code class="ph codeph">directory/</code>. <p class="p"></p></div>
+    <div class="itemgroup stepxmp"><pre class="pre codeblock"><code>"provisioners": [ 
+  { 
+  "type": "file", 
+  "source": "index.html", 
+  "destination": "/usr/share/nginx/html/" 
+  }, 
+  { 
+  "type": "file", 
+  "source": "directory-name/", 
+  "destination": "/usr/share/nginx/html/directory-name/"  } 
+ ] 
+  }              </code></pre></div> 
+    
+    <div class="itemgroup info"><p class="p"></p>The <code class="ph codeph">shell</code> provisioner provisions machines built by Packer using shell
+          scripts. Shell provisioning is the easiest way to get software installed and configured on
+          a machine.<p class="p"></p></div>
+    <div class="itemgroup stepxmp"><pre class="pre codeblock"><code>"provisioners": [
+{
+  "type": "shell",
+  "script": "create-directories.sh"
+}
+  ]
+    }              </code></pre></div>
+  
+  </li></ol></section>
+    </div>
+</article></main></body></html>
